@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.idealorb.tiltfx.dbproperties.AppDatabase;
 import com.idealorb.tiltfx.dbproperties.Currency;
+import com.idealorb.tiltfx.dbproperties.CurrencyRepository;
 
 import java.util.List;
 
@@ -15,15 +16,17 @@ import java.util.List;
 
 class CurrencyFXLoader extends AsyncTaskLoader<List<Currency>> {
 
+    private final AppDatabase appDB;
     /** URL for exchange rate data from the CRYPTOCOMPARE dataset*/
     private String CRYPTOCOMPARE_REQUEST_URL = "";
     private List<Currency> mData;
-    private final AppDatabase appDB;
+    private CurrencyRepository currencyRepo;
 
     public CurrencyFXLoader(Context context, AppDatabase appDB, String currencyURL) {
         super(context);
         CRYPTOCOMPARE_REQUEST_URL = currencyURL;
         this.appDB = appDB;
+        currencyRepo = new CurrencyRepository(appDB.currencyDao());
     }
 
     @Override
@@ -48,10 +51,10 @@ class CurrencyFXLoader extends AsyncTaskLoader<List<Currency>> {
 
         Log.v("CurrencyLoader", "Log Message from loadInBackground()");
 
-        List<Long> longList = appDB.currencyDao().insertListCurrencies(QueryApi.fetchExchangeRateData(CRYPTOCOMPARE_REQUEST_URL));
+        List<Currency> currencyList = QueryApi.fetchExchangeRateData(CRYPTOCOMPARE_REQUEST_URL);
+        currencyRepo.insertOrUpdateCurrency(currencyList);
 
-        Log.v("CurrencyFX", Integer.toString(longList.size()));
-        return appDB.currencyDao().fetchAllCurrencies();
+        return currencyRepo.getCurrencyList();
     }
 
     @Override
