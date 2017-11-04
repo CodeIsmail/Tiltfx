@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">TiltFX</string>
+
+    <!--Label for currency (USD etc) TextView -->
+    <string name="currency_label">Currency</string>
+
+    <!--Label for Bitcoin (BTC) TextView -->
+    <string name="bitcoin_label">BTC</string>
+
+    <!--Label for Etherium (ETH) TextView -->
+    <string name="ether_label">ETH</string>
+
+    <!-- Label for Setting -->
+    <string name="setting_title">Setting</string>
+
+    <!-- Label for Conversion Activity -->
+    <string name="conversion_title">ConversionFX</string>
+
+    <!-- Strings For Cryptocurrency Preference [CHAR LIMIT=30] -->
+    <string name="settings_cryptocurrency_label">Cryptocurrrency</string>
+    <string name="settings_cryptocurrency_key" translatable="false">cryptocurrency</string>
+    <string name="settings_cryptocurrency_by_default" translatable="false">@string/settings_bitcoin_value</string>
+
+    <!-- Label for bitcoin (BTC) option [CHAR LIMIT=20] -->
+    <string name="settings_bitcoin_label">Bitcoin</string>
+    <string name="settings_bitcoin_value" translatable="false">@string/settings_bitcoin_label</string>
+
+    <!-- Label for etherium (ETH) option [CHAR LIMIT=20] -->
+    <string name="settings_etherium_label">Ethereum</string>
+    <string name="settings_etherium_value" translatable="false">@string/settings_etherium_label</string>
+
+</resources>

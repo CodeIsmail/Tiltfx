@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/setting_title">
+
+    <ListPreference
+        android:defaultValue="@string/settings_cryptocurrency_by_default"
+        android:entries="@array/settings_cryptocurrency_labels"
+        android:entryValues="@array/settings_cryptocurrency_values"
+        android:key="@string/settings_cryptocurrency_key"
+        android:title="@string/settings_cryptocurrency_label" />
+
+</PreferenceScreen>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="settings_cryptocurrency_labels">
+        <item>@string/settings_bitcoin_label</item>
+        <item>@string/settings_etherium_label</item>
+    </string-array>
+
+    <string-array name="settings_cryptocurrency_values">
+        <item>@string/settings_bitcoin_value</item>
+        <item>@string/settings_etherium_value</item>
+    </string-array>
+</resources>
