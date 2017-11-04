@@ -47,9 +47,7 @@ class CurrencyFXLoader extends AsyncTaskLoader<List<Currency>> {
         }
 
         Log.v("CurrencyLoader", "Log Message from loadInBackground()");
-        List<Currency> result = QueryApi.fetchExchangeRateData(CRYPTOCOMPARE_REQUEST_URL);
 
-        Log.v("CurrencyFX", Integer.toString(result.size()));
         List<Long> longList = appDB.currencyDao().insertListCurrencies(QueryApi.fetchExchangeRateData(CRYPTOCOMPARE_REQUEST_URL));
 
         Log.v("CurrencyFX", Integer.toString(longList.size()));
