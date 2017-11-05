@@ -1,10 +1,17 @@
 package com.idealorb.tiltfx;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -17,12 +24,19 @@ import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ConverterActivity extends AppCompatActivity {
 
-    private LineChart mChart;
     protected Typeface mTfRegular;
     protected Typeface mTfLight;
+    private LineChart mChart;
+    private TextView exchangedCurrencyTextView;
+    private Button exchangeButton;
+    private RadioButton cryptoRadioButton;
+    private RadioButton currencyRadioButton;
+    private RadioGroup mRadioGroup;
+    private EditText inputField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +44,72 @@ public class ConverterActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_converter);
 
+        exchangedCurrencyTextView = findViewById(R.id.exchanged_currency_text_view);
+        exchangeButton = findViewById(R.id.exchange_button);
+        cryptoRadioButton = findViewById(R.id.cryptoRadioButton);
+        currencyRadioButton = findViewById(R.id.currencyRadioButton);
+        mRadioGroup = findViewById(R.id.radio_button_group);
+        inputField = findViewById(R.id.cryptocurrency_input);
+
+
+
+        Intent dataFrom = getIntent();
+        final String dataArray[] = dataFrom.getStringArrayExtra("CurrencyData");
+
+        currencyRadioButton.setText(dataArray[0]);
+        cryptoRadioButton.setText(dataArray[2]);
+        exchangedCurrencyTextView.setText(R.string.default_currency_value);
+        inputField.setText(R.string.default_currency_value);
+
+
         mTfRegular = Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Regular.ttf");
         mTfLight = Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Light.ttf");
 
         //draw market cap chart
         setChartToDraw();
+
+
+        exchangeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String valueToDisplay;
+                if (cryptoRadioButton.isChecked()){
+
+                    double userValue = Double.parseDouble(inputField.getText().toString());
+                    Log.v("uservalue", Double.toString(userValue));
+
+                    double exchangeRate = Double.parseDouble(dataArray[1]);
+
+                    Log.v("exchangerate", Double.toString(exchangeRate));
+                    double exchangeValue = userValue * exchangeRate;
+                    valueToDisplay = String.format(Locale.getDefault(),"%.2f", exchangeValue);
+                    Log.v("valueToDisplay", valueToDisplay);
+                    exchangedCurrencyTextView.setText(valueToDisplay);
+                }else{
+
+
+                    double userValue = Double.parseDouble(inputField.getText().toString());
+                    Log.v("uservalue", Double.toString(userValue));
+
+                    double exchangeRate = Double.parseDouble(dataArray[1]);
+
+                    Log.v("exchangerate", Double.toString(exchangeRate));
+
+                    double exchangeValue = userValue / exchangeRate;
+
+                    valueToDisplay = String.format(Locale.getDefault(), "%.5f", exchangeValue);
+                    exchangedCurrencyTextView.setText(valueToDisplay);
+                }
+            }
+        });
+
+//        inputField.setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                return false;
+//            }
+//        });
 
     }
 

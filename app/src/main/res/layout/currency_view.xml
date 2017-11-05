@@ -2,14 +2,14 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="@dimen/card_height"
-
+        android:layout_margin="16dp"
         >
 
         <RelativeLayout
@@ -26,10 +26,11 @@
                     android:id="@+id/currency_textview"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center|left"
                     android:layout_marginLeft="16dp"
-                    tools:text="US Dollar (USD)"/>
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:gravity="center|start"
+                    tools:text="US Dollar (USD)" />
 
                 <TextView
                     android:id="@+id/bitcoin_value_textview"
@@ -38,8 +39,8 @@
                     android:layout_weight="1"
                     android:gravity="center|end"
                     android:paddingEnd="70dp"
-                    tools:text="$5000.00"
-                    />
+                    android:paddingRight="70dp"
+                    tools:text="$5000.00" />
 
                 <!--<TextView
                     android:id="@+id/ether_value_textview"
@@ -54,11 +55,12 @@
                 android:id="@+id/exchange_rate_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:src="@drawable/increase"
                 android:layout_alignEnd="@id/text_view_layout"
+                android:layout_alignRight="@id/text_view_layout"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="30dp"
-                />
+                android:layout_marginRight="30dp"
+                tools:src="@drawable/increase" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

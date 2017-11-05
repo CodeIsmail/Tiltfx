@@ -31,7 +31,7 @@
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textStyle="bold"
                     tools:text="$5.00"/>
-
+                
                 <EditText
                     android:id="@+id/cryptocurrency_input"
                     android:layout_width="wrap_content"
@@ -39,22 +39,25 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerInParent="true"
                     android:layout_marginBottom="75dp"
-
                     android:width="150dp"
                     android:ems="10"
                     android:inputType="numberSigned|numberDecimal"
                     android:textAppearance="@android:style/TextAppearance.Material.Large"
-                    android:textDirection="rtl"
+                    android:textDirection="ltr"
                     tools:targetApi="lollipop" />
-
+                
                 <Button
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:id="@+id/exchange_button"
+                    android:layout_width="47dp"
+                    android:layout_height="47dp"
                     android:layout_alignEnd="@+id/cryptocurrency_input"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignRight="@+id/cryptocurrency_input"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerInParent="true"
-                    android:layout_marginBottom="75dp" tools:text=">" />
+                    android:layout_marginBottom="75dp"
+                    android:layout_marginEnd="72dp"
+                    android:text=">"
+                    android:textAppearance="@android:style/TextAppearance.Material.Large" />
 
                 <RadioGroup
                     android:id="@+id/radio_button_group"
@@ -70,9 +73,10 @@
                         android:id="@+id/cryptoRadioButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checked="true"
                         android:textAppearance="@android:style/TextAppearance.Material.Medium"
                         android:textColor="@android:color/black"
-                        tools:targetApi="lollipop" tools:text="BTC" />
+                        tools:text="BTC" />
 
                     <RadioButton
                         android:id="@+id/currencyRadioButton"
@@ -80,7 +84,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="@android:style/TextAppearance.Material.Medium"
                         android:textColor="@android:color/black"
-                        tools:targetApi="lollipop" tools:text="USD" />
+                        tools:text="USD"/>
                 </RadioGroup>
             </RelativeLayout>
         </android.support.v7.widget.CardView>

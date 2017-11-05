@@ -19,7 +19,8 @@
             android:text="@string/currency_label"
             android:textAppearance="@android:style/TextAppearance.Material.Medium"
             android:textColor="@android:color/black"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="NewApi" />
 
         <TextView
             android:id="@+id/cryptocurrency_textview"
@@ -32,14 +33,16 @@
             android:textAppearance="@android:style/TextAppearance.Material.Medium"
             android:textColor="@android:color/black"
             android:textStyle="bold"
-            tools:text="@string/bitcoin_label"/>
+            tools:ignore="NewApi"
+            tools:text="@string/bitcoin_label" />
     </LinearLayout>
 
     <ListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        >
 
     </ListView>
 

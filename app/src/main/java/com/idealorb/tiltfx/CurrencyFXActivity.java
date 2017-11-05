@@ -27,16 +27,12 @@ import java.util.List;
 public class CurrencyFXActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Currency>>{
 
     public static  final String LOG_TAG = CurrencyFXActivity.class.getName();
-
-    public static String cryptoCurrency = "";
-
     public static final String[] currencyNames = {"GBP","USD","EUR","NGN","JPY","CHF",
             "CAD","INR","RUB","ZAR","MXN","MYR","DKK","SGD","SAR","AED","KRW",
             "TRY","NOK","SEK"};
-
     private static final String CRYPTOCOMPARE_REQUEST_URL = "https://min-api.cryptocompare.com/" +
             "data/pricemulti?";
-
+    public static String cryptoCurrency = "";
     private AppDatabase database;
     private  CurrencyAdapter currencyAdapter;
 
@@ -99,7 +95,7 @@ public class CurrencyFXActivity extends AppCompatActivity implements LoaderManag
                 Currency selectedCurrency = (Currency) currencyAdapter.getItem(position);
 
                 String[] currencyToString = {selectedCurrency.getCurrencyTagName(),
-                        Double.toString(selectedCurrency.getBitcoinExchangeRate())};
+                        Double.toString(selectedCurrency.getBitcoinExchangeRate()), "BTC"};
                 converterIntent.putExtra("CurrencyData", currencyToString
                 );
 
