@@ -7,8 +7,13 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
 
 public class SettingActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +25,17 @@ public class SettingActivity extends AppCompatActivity {
 
     public static class CurrencyFXPreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
+
+        public static Observable<String> getPref(String cryptoPrefs) {
+            Log.v("SettingActivity", "crptocurrency value: " + cryptoPrefs);
+            return new Observable<String>() {
+                @Override
+                protected void subscribeActual(Observer<? super String> observer) {
+                    observer.onNext(cryptoPrefs);
+                }
+            };
+        }
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -28,8 +44,8 @@ public class SettingActivity extends AppCompatActivity {
             Preference cryptoPreference = findPreference(getString(R.string.settings_cryptocurrency_key));
             bindPreferenceSummaryToValue(cryptoPreference);
 
-        }
 
+        }
 
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {

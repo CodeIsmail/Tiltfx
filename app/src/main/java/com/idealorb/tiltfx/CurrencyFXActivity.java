@@ -1,14 +1,14 @@
 package com.idealorb.tiltfx;
 
-import android.app.LoaderManager;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.content.Loader;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -24,7 +24,7 @@ import com.idealorb.tiltfx.dbproperties.Currency;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CurrencyFXActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Currency>>{
+public class CurrencyFXActivity extends AppCompatActivity {
 
     public static  final String LOG_TAG = CurrencyFXActivity.class.getName();
     public static final String[] currencyNames = {"GBP","USD","EUR","NGN","JPY","CHF",
@@ -35,6 +35,9 @@ public class CurrencyFXActivity extends AppCompatActivity implements LoaderManag
     public static String cryptoCurrency = "";
     private AppDatabase database;
     private  CurrencyAdapter currencyAdapter;
+    private CurrencyFXViewModel currencyFXViewModel;
+    private TextView cryptoTextViewLabel;
+
 
 
     @Override
@@ -44,37 +47,28 @@ public class CurrencyFXActivity extends AppCompatActivity implements LoaderManag
 
 
         ListView listView = findViewById(R.id.list_view);
+        cryptoTextViewLabel = findViewById(R.id.cryptocurrency_textview);
+        setPrefToView();
         currencyAdapter = new CurrencyAdapter(this, new ArrayList<Currency>());
 
         listView.setAdapter(currencyAdapter);
+        setPrefToView();
+        currencyFXViewModel = ViewModelProviders.of(this).get(CurrencyFXViewModel.class);
 
-        //create database
-        database = AppDatabase.getDatabase(getApplicationContext());
-
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String cryptoPrefs = sharedPrefs.getString(
-                getString(R.string.settings_cryptocurrency_key),
-                getString(R.string.settings_cryptocurrency_by_default));
-
-
-        TextView cryptoTextViewLabel = findViewById(R.id.cryptocurrency_textview);
-
-        if(cryptoPrefs.equalsIgnoreCase("Bitcoin"))
-        {
-            cryptoTextViewLabel.setText(getString(R.string.bitcoin_label));
-            cryptoCurrency = "BTC";
-        }else
-        {
-            cryptoTextViewLabel.setText(getString(R.string.ether_label));
-            cryptoCurrency = "ETH";
-        }
 
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo  = connManager.getActiveNetworkInfo();
 
         if (networkInfo != null && networkInfo.isConnected()){
-            getLoaderManager().initLoader(0, null, this);
+            currencyFXViewModel.getCurrListLiveData()
+                    .observe(this, new Observer<List<Currency>>() {
+                        @Override
+                        public void onChanged(@Nullable List<Currency> currencies) {
+                            currencyAdapter.addAll(currencies);
+                        }
+                    });
+
+
         }else{
             //mProgress.setVisibility(View.GONE);
             String noInternetMessage = "No internet connection";
@@ -95,7 +89,7 @@ public class CurrencyFXActivity extends AppCompatActivity implements LoaderManag
                 Currency selectedCurrency = (Currency) currencyAdapter.getItem(position);
 
                 String[] currencyToString = {selectedCurrency.getCurrencyTagName(),
-                        Double.toString(selectedCurrency.getBitcoinExchangeRate()), "BTC"};
+                        Double.toString(selectedCurrency.getBitcoinExchangeRate()), cryptoCurrency};
                 converterIntent.putExtra("CurrencyData", currencyToString
                 );
 
@@ -128,70 +122,27 @@ public class CurrencyFXActivity extends AppCompatActivity implements LoaderManag
         return super.onOptionsItemSelected(item);
     }
 
-    private String createStringFromArray()
+
+    public void setPrefToView()
     {
-        StringBuilder urlBuilder = new StringBuilder("");
-        for (int i = 0; i < currencyNames.length; i++)
-        {
-            urlBuilder.append(currencyNames[i]);
-            if (i==(currencyNames.length-1))
-                break;
-            urlBuilder.append(",");
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String cryptoPrefs = sharedPrefs.getString(
+                getString(R.string.settings_cryptocurrency_key),
+                getString(R.string.settings_cryptocurrency_by_default));
+        Log.v("CurrencyFXActivity", "setPrefs above observable. \ncrptocurrency value: " + cryptoPrefs);
+        SettingActivity.CurrencyFXPreferenceFragment
+                .getPref(cryptoPrefs)
+                .subscribe(s -> {
+                    Log.v("CurrencyFXActivity", "setPrefs observer. \ncrptocurrency value: " + cryptoPrefs);
+                    if (s.equalsIgnoreCase("Bitcoin")) {
+                        cryptoTextViewLabel.setText(getString(R.string.bitcoin_label));
+                        cryptoCurrency = "BTC";
+                    } else {
+                        cryptoTextViewLabel.setText(getString(R.string.ether_label));
+                        cryptoCurrency = "ETH";
+                    }
+                });
 
-        }
-        return  urlBuilder.toString();
+
     }
-
-    @Override
-    public Loader<List<Currency>> onCreateLoader(int i, Bundle bundle) {
-
-
-
-        Uri baseUri = Uri.parse(CRYPTOCOMPARE_REQUEST_URL);
-        Uri.Builder uriBuilder = baseUri.buildUpon();
-
-
-        uriBuilder.appendQueryParameter("fsyms", cryptoCurrency);
-        uriBuilder.appendQueryParameter("tsyms", createStringFromArray() );
-
-
-
-        return new CurrencyFXLoader(this, database, uriBuilder.toString());
-    }
-
-    @Override
-    public void onLoadFinished(Loader<List<Currency>> loader, List<Currency> currencyList) {
-
-        Log.v("CurrencyFXActivity", "Log Message from onLoadFinished()");
-        // Clear the adapter of previous exchange rate data
-        currencyAdapter.clear();
-
-        //mProgress.setVisibility(View.GONE);
-        // If there is a valid list of {@link Currency}s, then add them to the adapter's
-        // data set. This will trigger the ListView to update.
-        if (currencyList != null && !currencyList.isEmpty()) {
-
-            currencyAdapter.addAll(currencyList);
-//            LiveData<List<Currency>> currencyLiveData = database.currencyDao().fetchAllCurrencies();
-//            currencyLiveData.observe(this, new Observer<List<Currency>>() {
-//                @Override
-//                public void onChanged(@Nullable List<Currency> currencyData) {
-//                    //Update your UI here.
-//                    currencyAdapter.addAll(currencyData);
-//                    currencyAdapter.notifyDataSetChanged();
-//                    Log.v("CurrencyFX", Integer.toString(currencyData.size()));
-//                }
-//            });
-        }else{
-            String emptyMessage = "No currency exchange rate found!";
-            //mTextView.setText(emptyMessage);
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<Currency>> loader) {
-        Log.v("CurrencyFXActivity", "Log Message from onLoaderReset()");
-        currencyAdapter.clear();
-    }
-
 }
