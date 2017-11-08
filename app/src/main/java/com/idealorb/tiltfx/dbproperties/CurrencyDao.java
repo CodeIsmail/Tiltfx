@@ -7,6 +7,8 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+
 /**
  * Created by Ismail on 10/23/2017.
  */
@@ -27,7 +29,7 @@ public interface CurrencyDao {
      * @param currencies the user to be inserted.
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    List<Long> insertCurrencyList(List<Currency> currencies);
+    void insertCurrencyList(List<Currency> currencies);
 
     /**
      * Get the list of currency from the table. Since for simplicity we only have one list of currency in the database,
@@ -36,7 +38,7 @@ public interface CurrencyDao {
      * @return the list of currency from the table
      */
     @Query("select * from currency")
-    List<Currency> fetchAllCurrencies();
+    Flowable<List<Currency>> fetchAllCurrencies();
 
     @Query("select * from currency where currencyID = :currencyId")
     Currency fetchCurrency(long currencyId);

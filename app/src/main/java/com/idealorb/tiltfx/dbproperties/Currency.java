@@ -23,43 +23,22 @@ public class Currency {
     /*@ColumnInfo(name = "ether_xRate")
     private double etherExchangeRate;*/
 
-    /*@Ignore
-    private String cryptoCurrencyName;
-*/
+
    //
-    public Currency(int currencyID, String currencyTagName,  double bitcoinExchangeRate)
-    {
+    public Currency(int currencyID, String currencyTagName,  double bitcoinExchangeRate) {
         this.currencyID = currencyID;
         this.currencyTagName = currencyTagName;
-        this.bitcoinExchangeRate = bitcoinExchangeRate;/*
-        if(cryptoCurrencyName.equalsIgnoreCase("BTC"))
-        {
-
-        }else{
-            this.etherExchangeRate = etherExchangeRate;
-        }*/
-    }
-
-
-    public void setCurrencyID(int currencyID) {
-        this.currencyID = currencyID;
-    }
-
-
-    public void  setCurrencyTagName(String currencyTagName)
-    {
-        this.currencyTagName = currencyTagName;
-    }
-
-    public void setBitcoinExchangeRate(double bitcoinExchangeRate)
-    {
         this.bitcoinExchangeRate = bitcoinExchangeRate;
-    }
 
+    }
 
     //get currency id from database
     public int getCurrencyID() {
         return currencyID;
+    }
+
+    public void setCurrencyID(int currencyID) {
+        this.currencyID = currencyID;
     }
 
     //get currency tag name (USD) from database
@@ -67,31 +46,34 @@ public class Currency {
         return currencyTagName;
     }
 
+    public void setCurrencyTagName(String currencyTagName) {
+        this.currencyTagName = currencyTagName;
+    }
+
     //get bitcoin exchange rate
     public double getBitcoinExchangeRate() {
         return bitcoinExchangeRate;
     }
 
-
-    /*public void setCryptoCurrencyName(String cryptoCurrencyName) {
-        this.cryptoCurrencyName = cryptoCurrencyName;
-    }*/
+    public void setBitcoinExchangeRate(double bitcoinExchangeRate) {
+        this.bitcoinExchangeRate = bitcoinExchangeRate;
+    }
 
 
     /*public void setEtherExchangeRate(double etherExchangeRate) {
         this.etherExchangeRate = etherExchangeRate;
-    }*/
+    }
 
 
-    /*//get etherium exchange rate
+    //get etherium exchange rate
     public double getEtherExchangeRate() {
         return etherExchangeRate;
-    }
-*/
-    /*public String getCryptoCurrencyName() {
-        return cryptoCurrencyName;
     }*/
 
+    /*//get data from Currency Tag Name and Etherium Column
+    public void getDataFromTagNameAndEtherium(){
+
+    }*/
     @Override
     public String toString() {
 

@@ -29,4 +29,6 @@
     <string name="settings_etherium_label">Ethereum</string>
     <string name="settings_etherium_value" translatable="false">@string/settings_etherium_label</string>
 
+    <string name="default_currency_value">0.00</string>
+
 </resources>

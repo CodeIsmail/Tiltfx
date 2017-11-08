@@ -8,6 +8,8 @@ import com.idealorb.tiltfx.dbproperties.Currency;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+
 /**
  * Access point for managing currency data.
  */
@@ -18,7 +20,7 @@ public interface CurrencyDataSource {
      *
      * @return the currency from the data source.
      */
-    List<Currency> getCurrencyList();
+    Flowable<List<Currency>> getCurrencyList();
 
     /**
      * Inserts the currency list into the data source, or, if this is an existing currency list, updates it.
