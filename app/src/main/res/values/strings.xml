@@ -2,7 +2,7 @@
     <string name="app_name">TiltFX</string>
 
     <!--Label for currency (USD etc) TextView -->
-    <string name="currency_label">Currency</string>
+    <string name="currency_label">Name</string>
 
     <!--Label for Bitcoin (BTC) TextView -->
     <string name="bitcoin_label">BTC</string>

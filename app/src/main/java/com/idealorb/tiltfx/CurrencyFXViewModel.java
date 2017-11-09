@@ -16,21 +16,19 @@ import java.util.List;
  * Created by Ismail on 11/4/2017.
  */
 
-public class CurrencyFXViewModel extends AndroidViewModel {
+class CurrencyFXViewModel extends AndroidViewModel {
 
-    private CurrencyRepository currencyRepo;
-    private AppDatabase appDatabase;
-    private String crypto = "BTC";
+    private final CurrencyRepository currencyRepo;
 
 
     public CurrencyFXViewModel(@NonNull Application application) {
         super(application);
 
-        appDatabase = AppDatabase.getDatabase(application);
+        AppDatabase appDatabase = AppDatabase.getDatabase(application);
 
+        String crypto = "BTC";
         currencyRepo = new CurrencyRepository(appDatabase.currencyDao(), crypto);
-        currencyRepo.changeDataFormat()
-                .doOnNext(Object::toString);
+        currencyRepo.getData();
     }
 
     public LiveData<List<Currency>> getCurrListLiveData() {

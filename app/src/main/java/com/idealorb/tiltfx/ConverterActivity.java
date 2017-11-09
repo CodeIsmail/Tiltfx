@@ -6,11 +6,9 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -19,9 +17,6 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IFillFormatter;
-import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -32,10 +27,7 @@ public class ConverterActivity extends AppCompatActivity {
     protected Typeface mTfLight;
     private LineChart mChart;
     private TextView exchangedCurrencyTextView;
-    private Button exchangeButton;
     private RadioButton cryptoRadioButton;
-    private RadioButton currencyRadioButton;
-    private RadioGroup mRadioGroup;
     private EditText inputField;
 
     @Override
@@ -45,10 +37,9 @@ public class ConverterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_converter);
 
         exchangedCurrencyTextView = findViewById(R.id.exchanged_currency_text_view);
-        exchangeButton = findViewById(R.id.exchange_button);
+        Button exchangeButton = findViewById(R.id.exchange_button);
         cryptoRadioButton = findViewById(R.id.cryptoRadioButton);
-        currencyRadioButton = findViewById(R.id.currencyRadioButton);
-        mRadioGroup = findViewById(R.id.radio_button_group);
+        RadioButton currencyRadioButton = findViewById(R.id.currencyRadioButton);
         inputField = findViewById(R.id.cryptocurrency_input);
 
 
@@ -69,38 +60,35 @@ public class ConverterActivity extends AppCompatActivity {
         setChartToDraw();
 
 
-        exchangeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        exchangeButton.setOnClickListener(v -> {
 
-                String valueToDisplay;
-                if (cryptoRadioButton.isChecked()){
+            String valueToDisplay;
+            if (cryptoRadioButton.isChecked()) {
 
-                    double userValue = Double.parseDouble(inputField.getText().toString());
-                    Log.v("uservalue", Double.toString(userValue));
+                double userValue = Double.parseDouble(inputField.getText().toString());
+                Log.v("uservalue", Double.toString(userValue));
 
-                    double exchangeRate = Double.parseDouble(dataArray[1]);
+                double exchangeRate = Double.parseDouble(dataArray[1]);
 
-                    Log.v("exchangerate", Double.toString(exchangeRate));
-                    double exchangeValue = userValue * exchangeRate;
-                    valueToDisplay = String.format(Locale.getDefault(),"%.2f", exchangeValue);
-                    Log.v("valueToDisplay", valueToDisplay);
-                    exchangedCurrencyTextView.setText(valueToDisplay);
-                }else{
+                Log.v("exchangerate", Double.toString(exchangeRate));
+                double exchangeValue = userValue * exchangeRate;
+                valueToDisplay = String.format(Locale.getDefault(), "%.2f", exchangeValue);
+                Log.v("valueToDisplay", valueToDisplay);
+                exchangedCurrencyTextView.setText(valueToDisplay);
+            } else {
 
 
-                    double userValue = Double.parseDouble(inputField.getText().toString());
-                    Log.v("uservalue", Double.toString(userValue));
+                double userValue = Double.parseDouble(inputField.getText().toString());
+                Log.v("uservalue", Double.toString(userValue));
 
-                    double exchangeRate = Double.parseDouble(dataArray[1]);
+                double exchangeRate = Double.parseDouble(dataArray[1]);
 
-                    Log.v("exchangerate", Double.toString(exchangeRate));
+                Log.v("exchangerate", Double.toString(exchangeRate));
 
-                    double exchangeValue = userValue / exchangeRate;
+                double exchangeValue = userValue / exchangeRate;
 
-                    valueToDisplay = String.format(Locale.getDefault(), "%.5f", exchangeValue);
-                    exchangedCurrencyTextView.setText(valueToDisplay);
-                }
+                valueToDisplay = String.format(Locale.getDefault(), "%.5f", exchangeValue);
+                exchangedCurrencyTextView.setText(valueToDisplay);
             }
         });
 
@@ -222,12 +210,7 @@ public class ConverterActivity extends AppCompatActivity {
             set1.setFillColor(Color.WHITE);
             set1.setFillAlpha(100);
             set1.setDrawHorizontalHighlightIndicator(false);
-            set1.setFillFormatter(new IFillFormatter() {
-                @Override
-                public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
-                    return -10;
-                }
-            });
+            set1.setFillFormatter((dataSet, dataProvider) -> -10);
 
             // create a data object with the datasets
             LineData data = new LineData(set1);

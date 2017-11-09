@@ -1,12 +1,12 @@
 package com.idealorb.tiltfx;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.idealorb.tiltfx.dbproperties.Currency;
@@ -21,20 +21,14 @@ import java.util.Locale;
 class CurrencyAdapter extends ArrayAdapter{
 
 
-    static class ViewHolder {
-        public TextView currencyTextView;
-        public TextView bitcoinValueTextView;
-        public ImageView exchangeRateStateImageView;
-    }
-
     public CurrencyAdapter(Context context, ArrayList<Currency> currenries) {
         super(context, 0, currenries);
 
     }
 
-
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
 
         View listItemView = convertView;
@@ -51,9 +45,6 @@ class CurrencyAdapter extends ArrayAdapter{
                     .findViewById(R.id.currency_textview);
             viewHolder.bitcoinValueTextView = listItemView
                     .findViewById(R.id.bitcoin_value_textview);
-            viewHolder.exchangeRateStateImageView = listItemView
-                    .findViewById(R.id.exchange_rate_state);
-
 
             listItemView.setTag(viewHolder);
         }
@@ -74,8 +65,14 @@ class CurrencyAdapter extends ArrayAdapter{
                 "%10.2f", currency.getBitcoinExchangeRate());
         holder.bitcoinValueTextView.setText(exchangeRate);
 
-        holder.exchangeRateStateImageView.setImageResource(R.drawable.increase);
+
 
         return listItemView;
+    }
+
+    static class ViewHolder {
+        public TextView currencyTextView;
+        public TextView bitcoinValueTextView;
+
     }
 }

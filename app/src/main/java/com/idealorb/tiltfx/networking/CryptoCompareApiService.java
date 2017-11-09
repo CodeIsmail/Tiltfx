@@ -2,7 +2,6 @@ package com.idealorb.tiltfx.networking;
 
 import android.util.Log;
 
-import com.idealorb.tiltfx.dbproperties.CurrencyDao;
 import com.idealorb.tiltfx.model.CryptoCurrency;
 import com.idealorb.tiltfx.networking.exception.NetworkRequestInternalException;
 import com.idealorb.tiltfx.networking.exception.NetworkRequestTechFailureException;
@@ -21,11 +20,8 @@ import retrofit2.Retrofit;
 public class CryptoCompareApiService {
 
     private ICryptoCompareApi cryptoCompareApi;
-    //private AppDatabase appDatabase;
     private boolean isRequestingData;
-
     private String cryptoCurrency;
-    private CurrencyDao currencyDao;
     private String[] currencyNames = {};
 
 
@@ -37,10 +33,6 @@ public class CryptoCompareApiService {
         this.cryptoCurrency = crypto;
 
 
-    }
-
-    public void setCryptoCompareApi(ICryptoCompareApi cryptoCompareApi) {
-        this.cryptoCompareApi = cryptoCompareApi;
     }
 
     public Flowable<CryptoCurrency> getExchangeRate() {

@@ -10,7 +10,7 @@ import retrofit2.http.Query;
  * Created by Ismail on 11/4/2017.
  */
 //RetrofitLayer: It will make the main network request
-public interface ICryptoCompareApi {
+interface ICryptoCompareApi {
 
 
     @GET("pricemulti?")

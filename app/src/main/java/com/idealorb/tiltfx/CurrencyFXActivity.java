@@ -1,6 +1,5 @@
 package com.idealorb.tiltfx;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,34 +7,22 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.idealorb.tiltfx.dbproperties.AppDatabase;
 import com.idealorb.tiltfx.dbproperties.Currency;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CurrencyFXActivity extends AppCompatActivity {
 
     public static  final String LOG_TAG = CurrencyFXActivity.class.getName();
-    public static final String[] currencyNames = {"GBP","USD","EUR","NGN","JPY","CHF",
-            "CAD","INR","RUB","ZAR","MXN","MYR","DKK","SGD","SAR","AED","KRW",
-            "TRY","NOK","SEK"};
-    private static final String CRYPTOCOMPARE_REQUEST_URL = "https://min-api.cryptocompare.com/" +
-            "data/pricemulti?";
-    public static String cryptoCurrency = "";
-    private AppDatabase database;
+    private static String cryptoCurrency = "";
     private  CurrencyAdapter currencyAdapter;
-    private CurrencyFXViewModel currencyFXViewModel;
     private TextView cryptoTextViewLabel;
 
 
@@ -46,14 +33,15 @@ public class CurrencyFXActivity extends AppCompatActivity {
         setContentView(R.layout.activity_currency_fx);
 
 
-        ListView listView = findViewById(R.id.list_view);
+        ListView listView = findViewById(R.id.list);
         cryptoTextViewLabel = findViewById(R.id.cryptocurrency_textview);
+        //SwipeRefreshLayout mySwipeRefreshLayout = findViewById(R.id.swiperefresh);
         setPrefToView();
-        currencyAdapter = new CurrencyAdapter(this, new ArrayList<Currency>());
+        currencyAdapter = new CurrencyAdapter(this, new ArrayList<>());
 
         listView.setAdapter(currencyAdapter);
         setPrefToView();
-        currencyFXViewModel = ViewModelProviders.of(this).get(CurrencyFXViewModel.class);
+        CurrencyFXViewModel currencyFXViewModel = ViewModelProviders.of(this).get(CurrencyFXViewModel.class);
 
 
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
@@ -61,12 +49,7 @@ public class CurrencyFXActivity extends AppCompatActivity {
 
         if (networkInfo != null && networkInfo.isConnected()){
             currencyFXViewModel.getCurrListLiveData()
-                    .observe(this, new Observer<List<Currency>>() {
-                        @Override
-                        public void onChanged(@Nullable List<Currency> currencies) {
-                            currencyAdapter.addAll(currencies);
-                        }
-                    });
+                    .observe(this, currencies -> currencyAdapter.addAll(currencies));
 
 
         }else{
@@ -76,28 +59,22 @@ public class CurrencyFXActivity extends AppCompatActivity {
             //mTextView.setText(noInternetMessage);
         }
 
-        //new DatabaseAsync().execute();
+        listView.setOnItemClickListener((adapterView, view, position, l) -> {
 
+            Intent converterIntent =
+                    new Intent(CurrencyFXActivity.this, ConverterActivity.class);
+            //find the currency that was clicked
+            Currency selectedCurrency = (Currency) currencyAdapter.getItem(position);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+            String[] currencyToString = {selectedCurrency.getCurrencyTagName(),
+                    Double.toString(selectedCurrency.getBitcoinExchangeRate()), cryptoCurrency};
+            converterIntent.putExtra("CurrencyData", currencyToString
+            );
 
-                Intent converterIntent =
-                        new Intent(CurrencyFXActivity.this, ConverterActivity.class);
-                //find the currency that was clicked
-                Currency selectedCurrency = (Currency) currencyAdapter.getItem(position);
+            startActivity(converterIntent);
 
-                String[] currencyToString = {selectedCurrency.getCurrencyTagName(),
-                        Double.toString(selectedCurrency.getBitcoinExchangeRate()), cryptoCurrency};
-                converterIntent.putExtra("CurrencyData", currencyToString
-                );
+            overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
 
-                startActivity(converterIntent);
-
-                overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
-
-            }
         });
 
     }
@@ -123,7 +100,7 @@ public class CurrencyFXActivity extends AppCompatActivity {
     }
 
 
-    public void setPrefToView()
+    private void setPrefToView()
     {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         String cryptoPrefs = sharedPrefs.getString(

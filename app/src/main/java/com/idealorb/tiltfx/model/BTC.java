@@ -122,7 +122,7 @@ public class BTC {
         this.sEK = sEK;
     }
 
-    public Double getGBP() {
+    private Double getGBP() {
         return gBP;
     }
 
@@ -130,7 +130,7 @@ public class BTC {
         this.gBP = gBP;
     }
 
-    public Double getUSD() {
+    private Double getUSD() {
         return uSD;
     }
 
@@ -138,7 +138,7 @@ public class BTC {
         this.uSD = uSD;
     }
 
-    public Double getEUR() {
+    private Double getEUR() {
         return eUR;
     }
 
@@ -146,7 +146,7 @@ public class BTC {
         this.eUR = eUR;
     }
 
-    public Double getNGN() {
+    private Double getNGN() {
         return nGN;
     }
 
@@ -154,7 +154,7 @@ public class BTC {
         this.nGN = nGN;
     }
 
-    public Double getJPY() {
+    private Double getJPY() {
         return jPY;
     }
 
@@ -162,7 +162,7 @@ public class BTC {
         this.jPY = jPY;
     }
 
-    public Double getCHF() {
+    private Double getCHF() {
         return cHF;
     }
 
@@ -170,7 +170,7 @@ public class BTC {
         this.cHF = cHF;
     }
 
-    public Double getCAD() {
+    private Double getCAD() {
         return cAD;
     }
 
@@ -178,7 +178,7 @@ public class BTC {
         this.cAD = cAD;
     }
 
-    public Double getINR() {
+    private Double getINR() {
         return iNR;
     }
 
@@ -186,7 +186,7 @@ public class BTC {
         this.iNR = iNR;
     }
 
-    public Double getRUB() {
+    private Double getRUB() {
         return rUB;
     }
 
@@ -194,7 +194,7 @@ public class BTC {
         this.rUB = rUB;
     }
 
-    public Double getZAR() {
+    private Double getZAR() {
         return zAR;
     }
 
@@ -202,7 +202,7 @@ public class BTC {
         this.zAR = zAR;
     }
 
-    public Double getMXN() {
+    private Double getMXN() {
         return mXN;
     }
 
@@ -210,7 +210,7 @@ public class BTC {
         this.mXN = mXN;
     }
 
-    public Double getMYR() {
+    private Double getMYR() {
         return mYR;
     }
 
@@ -218,7 +218,7 @@ public class BTC {
         this.mYR = mYR;
     }
 
-    public Double getDKK() {
+    private Double getDKK() {
         return dKK;
     }
 
@@ -226,7 +226,7 @@ public class BTC {
         this.dKK = dKK;
     }
 
-    public Double getSGD() {
+    private Double getSGD() {
         return sGD;
     }
 
@@ -234,7 +234,7 @@ public class BTC {
         this.sGD = sGD;
     }
 
-    public Double getSAR() {
+    private Double getSAR() {
         return sAR;
     }
 
@@ -242,7 +242,7 @@ public class BTC {
         this.sAR = sAR;
     }
 
-    public Double getAED() {
+    private Double getAED() {
         return aED;
     }
 
@@ -250,7 +250,7 @@ public class BTC {
         this.aED = aED;
     }
 
-    public Double getKRW() {
+    private Double getKRW() {
         return kRW;
     }
 
@@ -258,7 +258,7 @@ public class BTC {
         this.kRW = kRW;
     }
 
-    public Double getTRY() {
+    private Double getTRY() {
         return tRY;
     }
 
@@ -266,7 +266,7 @@ public class BTC {
         this.tRY = tRY;
     }
 
-    public Double getNOK() {
+    private Double getNOK() {
         return nOK;
     }
 
@@ -274,7 +274,7 @@ public class BTC {
         this.nOK = nOK;
     }
 
-    public Double getSEK() {
+    private Double getSEK() {
         return sEK;
     }
 
